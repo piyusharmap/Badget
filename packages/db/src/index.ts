@@ -1,13 +1,15 @@
-import { Client } from "@planetscale/database";
-import { drizzle } from "drizzle-orm/planetscale-serverless";
-import { customAlphabet } from "nanoid";
-
 import * as asset from "./schema/asset";
 import * as countryCode from "./schema/country";
 import * as currency from "./schema/currency";
 import * as customer from "./schema/customer";
 import * as openbanking from "./schema/openbanking";
 import * as provider from "./schema/provider";
+
+import { Pool, neon } from "@neondatabase/serverless";
+
+import { customAlphabet } from "nanoid";
+// import { drizzle } from "drizzle-orm/neon-http";
+import { drizzle } from 'drizzle-orm/neon-serverless';
 
 export const schema = {
   ...countryCode,
@@ -30,20 +32,18 @@ export type CanonicalAccount = typeof schema.account.$inferInsert;
 export type CanonicalBalance = typeof schema.balance.$inferInsert;
 export type CanonicalTransaction = typeof schema.transaction.$inferInsert;
 
-export { mySqlTable as tableCreator } from "./schema/_table";
+export { pgTable as tableCreator } from "./schema/_table";
 export * from "./enum";
 
 export * from "drizzle-orm";
 
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
+
 export const db = drizzle(
-  new Client({
-    host: process.env.DATABASE_HOST,
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD,
-  }).connection(),
-  { schema },
+  pool
 );
 
 // Use custom alphabet without special chars for less chaotic, copy-able URLs
-// Will not collide for a long long time: https://zelark.github.io/nano-id-cc/
 export const genId = customAlphabet("0123456789abcdefghijklmnopqrstuvwxyz", 16);

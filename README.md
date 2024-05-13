@@ -78,7 +78,7 @@ cp .env.example .env.local
 4. Input everything you need for the env.
 
    1. Create [Clerk](https://clerk.com) Account
-   2. Create [Planet Scale](https://planetscale.com/) Account
+   2. Create [Neon](https://neon.tech/) Account
    3. Create [Stripe](https://stripe.com) Account and download [Stripe CLI](https://docs.stripe.com/stripe-cli)
 
 5. Start the development server from either yarn or turbo:
@@ -105,26 +105,17 @@ To set up Stripe locally with environment variables:
 
 ## Database
 
-This project uses MySQL database on PlanetScale. To setup a DB for your local dev:
+This project uses Postgres database on Neon. To setup a DB for your local dev:
 
-1. Create a free account and a [new Database](https://planetscale.com/docs/tutorials/planetscale-quick-start-guide#create-a-database)
-2. From the dashboard, create a branch and click "Connect" button.
-3. Hit `Create password` and select `Drizzle` in `Connect with` dropdown
-4. Copy the entire list of params to `.env.local` file. Make sure to change the params under the section "Database (MySQL - PlanetScale)"
-5. run `pnpm run db:push`
+Create a free account and a [new Database](https://neon.tech/)
 
-You can also use `docker-compose` to have a Mysql database locally, instead of relying on PlanetScale:
-
-1. Enter `MYSQL_ROOT_PASSWORD`, `MYSQL_DATABASE`, `MYSQL_USER` and `MYSQL_PASSWORD` values in `.env.local`.
-2. run `docker-compose --env-file .env.local up` to start the DB.
-3. run `pnpm run db:push`.
 
 ## Roadmap
 
 - [x] ~Initial setup~
-- [ ] Start removing template
-- [ ] Update UI to match the product
-- [ ] XXXXXXXX
+- [x] Start removing template
+- [x] Update UI to match the product
+- [ ] Start stichting frontend with backend
 
 ## Tech Stack + Features
 
